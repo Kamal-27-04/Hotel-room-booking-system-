@@ -1,0 +1,140 @@
+import java.awt.*;
+import java.awt.event.*;
+
+public class HotelBookingSystem {
+
+    Frame frame;
+    Label nameLabel, roomLabel, dateLabel, checkInLabel, checkOutLabel, facilitiesLabel, paymentLabel, statusLabel;
+    TextField nameField, checkInField, checkOutField;
+    Choice roomChoice, paymentChoice;
+    Checkbox gymCheckbox, spaCheckbox, wifiCheckbox;
+    Button bookButton, clearButton;
+
+    public HotelBookingSystem() {
+        // Create the frame
+        frame = new Frame("Hotel Room Booking System");
+
+        // Create labels
+        nameLabel = new Label("Name:");
+        roomLabel = new Label("Room Type:");
+        dateLabel = new Label("Booking Date (DD/MM/YYYY):");
+        checkInLabel = new Label("Check-In (DD/MM/YYYY):");
+        checkOutLabel = new Label("Check-Out (DD/MM/YYYY):");
+        facilitiesLabel = new Label("Facilities:");
+        paymentLabel = new Label("Payment Method:");
+        statusLabel = new Label("");
+
+        // Create text fields
+        nameField = new TextField();
+        checkInField = new TextField();
+        checkOutField = new TextField();
+
+        // Create room choice dropdown
+        roomChoice = new Choice();
+        roomChoice.add("Single");
+        roomChoice.add("Double");
+        roomChoice.add("Suite");
+
+        // Create checkboxes for facilities
+        gymCheckbox = new Checkbox("Gym");
+        spaCheckbox = new Checkbox("Spa");
+        wifiCheckbox = new Checkbox("Wi-Fi");
+
+        // Create payment method dropdown
+        paymentChoice = new Choice();
+        paymentChoice.add("Credit Card");
+        paymentChoice.add("Debit Card");
+        paymentChoice.add("UPI");
+        paymentChoice.add("Cash");
+
+        // Create buttons
+        bookButton = new Button("Book Room");
+        clearButton = new Button("Clear");
+
+        // Set layout
+        frame.setLayout(new GridLayout(9, 2, 10, 10));
+
+        // Add components to frame
+        frame.add(nameLabel);
+        frame.add(nameField);
+
+        frame.add(roomLabel);
+        frame.add(roomChoice);
+
+        frame.add(checkInLabel);
+        frame.add(checkInField);
+
+        frame.add(checkOutLabel);
+        frame.add(checkOutField);
+
+        frame.add(facilitiesLabel);
+        Panel facilitiesPanel = new Panel(new FlowLayout());
+        facilitiesPanel.add(gymCheckbox);
+        facilitiesPanel.add(spaCheckbox);
+        facilitiesPanel.add(wifiCheckbox);
+        frame.add(facilitiesPanel);
+
+        frame.add(paymentLabel);
+        frame.add(paymentChoice);
+
+        frame.add(bookButton);
+        frame.add(clearButton);
+
+        frame.add(new Label("")); // Empty placeholder
+        frame.add(statusLabel);
+
+        // Add event listener for the "Book Room" button
+        bookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = nameField.getText().trim();
+                String room = roomChoice.getSelectedItem();
+                String checkIn = checkInField.getText().trim();
+                String checkOut = checkOutField.getText().trim();
+                String facilities = "";
+                if (gymCheckbox.getState()) facilities += "Gym ";
+                if (spaCheckbox.getState()) facilities += "Spa ";
+                if (wifiCheckbox.getState()) facilities += "Wi-Fi ";
+                String payment = paymentChoice.getSelectedItem();
+
+                if (name.isEmpty() || checkIn.isEmpty() || checkOut.isEmpty()) {
+                    statusLabel.setText("Error: All fields are required!");
+                    statusLabel.setForeground(Color.RED);
+                } else {
+                    statusLabel.setText("Booking confirmed for " + name + " (" + room + "). Facilities: " + facilities 
+                        + "Payment: " + payment + ". Stay: " + checkIn + " to " + checkOut);
+                    statusLabel.setForeground(Color.GREEN);
+                }
+            }
+        });
+
+        // Add event listener for the "Clear" button
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nameField.setText("");
+                checkInField.setText("");
+                checkOutField.setText("");
+                roomChoice.select(0);
+                gymCheckbox.setState(false);
+                spaCheckbox.setState(false);
+                wifiCheckbox.setState(false);
+                paymentChoice.select(0);
+                statusLabel.setText("");
+            }
+        });
+
+        // Configure frame
+        frame.setSize(600, 400);
+        frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                System.exit(0);
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        new HotelBookingSystem();
+    }
+}
