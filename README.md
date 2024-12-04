@@ -1,0 +1,1 @@
+The Hotel Room Booking System is a software application designed to streamline the process of reserving hotel rooms, managing bookings, and enhancing customer satisfaction. It automates various tasks, making hotel operations more efficient while providing a user-friendly interface for customers.
